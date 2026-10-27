@@ -1,0 +1,21 @@
+{
+  "base_model": "yolo11s.pt",
+  "train_args": {
+    "epochs": 60,
+    "patience": 15,
+    "imgsz": 640,
+    "batch": 16,
+    "max_det": 1000,
+    "seed": 0,
+    "deterministic": true,
+    "cache": "ram",
+    "workers": 2,
+    "plots": true
+  },
+  "epochs_completed": 60,
+  "train_minutes": 23.4,
+  "device": "Tesla T4",
+  "run_dir": "/content/a2/runs/shelf",
+  "weights": "weights/shelf_gaps_yolo11s.pt",
+  "dataset": "parth-vfviv/empty-shelf-detection-nipzt/3"
+}

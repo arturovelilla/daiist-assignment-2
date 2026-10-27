@@ -14,3 +14,10 @@ runs/
 
 # Never commit your API key
 .env
+
+# Pipeline by-products -- never commit these
+smoke_output/
+results.zip
+_results_staging/
+/yolo11*.pt
+weights/yolo*.pt

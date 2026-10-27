@@ -1,0 +1,94 @@
+{
+  "test_photos": 146,
+  "positive_class": "missing",
+  "models": {
+    "finetuned_yolo11s": {
+      "per_class": {
+        "missing": {
+          "ap50": 0.5365867195622216,
+          "ap50_95": 0.23385264069578143,
+          "precision": 0.666077738515901,
+          "recall": 0.5026666666666667,
+          "best_f1_conf": 0.29323190450668335,
+          "n_gt": 750,
+          "n_pred": 15888
+        },
+        "product": {
+          "ap50": 0.9127715039665131,
+          "ap50_95": 0.5585755351110789,
+          "precision": 0.887884634914187,
+          "recall": 0.8536418668228861,
+          "best_f1_conf": 0.42039772868156433,
+          "n_gt": 20484,
+          "n_pred": 87576
+        }
+      },
+      "overall": {
+        "map50": 0.7246791117643674,
+        "map50_95": 0.39621408790343016,
+        "precision": 0.776981186715044,
+        "recall": 0.6781542667447764
+      }
+    },
+    "coco_zero_shot_yolo11s": {
+      "per_class": {
+        "missing": {
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "best_f1_conf": null,
+          "n_gt": 750,
+          "n_pred": 0
+        },
+        "product": {
+          "ap50": 0.31875576326536126,
+          "ap50_95": 0.13050633264954453,
+          "precision": 0.444947209653092,
+          "recall": 0.38884007029876977,
+          "best_f1_conf": 0.004838828928768635,
+          "n_gt": 20484,
+          "n_pred": 42848
+        }
+      },
+      "overall": {
+        "map50": 0.15937788163268063,
+        "map50_95": 0.06525316632477227,
+        "precision": 0.222473604826546,
+        "recall": 0.19442003514938488
+      }
+    },
+    "predict_nothing": {
+      "per_class": {
+        "missing": {
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "best_f1_conf": null,
+          "n_gt": 750,
+          "n_pred": 0
+        },
+        "product": {
+          "ap50": 0.0,
+          "ap50_95": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "best_f1_conf": null,
+          "n_gt": 20484,
+          "n_pred": 0
+        }
+      },
+      "overall": {
+        "map50": 0.0,
+        "map50_95": 0.0,
+        "precision": 0.0,
+        "recall": 0.0
+      }
+    }
+  },
+  "notes": {
+    "coco_zero_shot_yolo11s": "Every COCO detection counted as 'product'; COCO has no gap class, so 'missing' is never predicted.",
+    "precision_recall": "At the confidence that maximises each class's F1 at IoU 0.50."
+  }
+}

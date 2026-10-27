@@ -1,0 +1,28 @@
+{
+  "labels": [
+    "missing",
+    "product",
+    "background"
+  ],
+  "rows": "true class",
+  "columns": "predicted class",
+  "conf": 0.25,
+  "iou": 0.45,
+  "matrix": [
+    [
+      409,
+      18,
+      323
+    ],
+    [
+      17,
+      18712,
+      1755
+    ],
+    [
+      207,
+      3965,
+      0
+    ]
+  ]
+}

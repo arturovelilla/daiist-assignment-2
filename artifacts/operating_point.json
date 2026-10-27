@@ -1,0 +1,148 @@
+{
+  "assumptions_file": "costs.json",
+  "assumptions": {
+    "_status": "Scenario B (central), hypermarket. Decided 2026-10-26. After editing, run: uv run python train.py --policy-only",
+    "k_gaps": 4,
+    "cost_restock_trip_eur": 3.25,
+    "cost_missed_restock_eur": 7.1,
+    "base_rate": 0.2,
+    "photos_per_day": 1500,
+    "review_seconds_per_photo": 20,
+    "reviewer_cost_per_hour_eur": 15.0,
+    "reviewer_minutes_available_per_day": 240,
+    "productive_hours_per_person_day": 7,
+    "_derivation": {
+      "setting": "Large hypermarket, fixed cameras, one camera per shelf section (one photo like the dataset's, ~135 facings).",
+      "trip": "15 min walk + restock + return x 13 EUR/h loaded shelf-stocker cost (~10 EUR/h gross from the supermarket collective agreement, ~17-19k EUR/yr over ~1,770 h, + ~30% employer social security) = 3.25 EUR. Paid whether the trip was needed (TP) or not (FP).",
+      "loss_per_gap": "1.50 EUR/h sales per empty facing (gaps concentrate on fast movers: ~one 1.50 EUR item per hour) x 40% of the sale lost to the store (Gruen, Corsten & Bharadwaj 2002: 31% buy elsewhere + 9% do not buy) x 25% gross margin x 6 h until the next scheduled round = 0.90 EUR per gap.",
+      "k": "Break-even gaps per trip = 3.25 / 0.90 = 3.6, rounded up to 4.",
+      "missed_restock": "0.90 EUR per gap x 7.9 gaps, the average on test photos that truly need restocking at k = 4 = 7.10 EUR. 2.2x a trip.",
+      "base_rate": "20% of photos truly need restocking in normal operations. The test set's 57% (photos with >= 4 gaps) comes from a dataset curated to show gaps; at 57% with 1,500 photos/day the store would need ~850 unscheduled trips a day (~31 stockers doing only trips), i.e. a store in crisis. 20% gives ~286 trips/day (~10 stockers). 57% is kept as the sensitivity case: there, a person checking every photo becomes cheaper than the model.",
+      "volume": "~100,000 facings / ~135 per photo = ~750 cameras x 2 photos/day = 1,500 photos/day. One photo in each interval between scheduled rounds (mid-morning, mid-afternoon), which is what makes a miss wait until the next round (the missed-restock cost). Hourly photos were rejected: they contradict that cost and imply ~6,900 trips/day. Camera count is an assumption, not sourced.",
+      "review": "20 s per photo by a section manager at ~15 EUR/h loaded (19.6-22.4k EUR/yr). ~15 section managers x 15 min/day = 240 min/day of review time. Reviewers assumed always right (human error out of scope, listed as a limitation)."
+    }
+  },
+  "thresholds_chosen_on": "validation (146 unique photos)",
+  "costs_reported_on": "test (146 unique photos)",
+  "test_photos": 146,
+  "test_positive_share": 0.5684931506849316,
+  "valid_positive_share": 0.6301369863013698,
+  "base_rate_used": 0.2,
+  "single_threshold": 0.38,
+  "band": {
+    "t_low": 0.1,
+    "t_high": 0.38
+  },
+  "model_alone": {
+    "t_low": 0.38,
+    "t_high": 0.38,
+    "base_rate": 0.2,
+    "counts": {
+      "needs_restock": {
+        "pass": 39,
+        "review": 0,
+        "restock": 44
+      },
+      "does_not": {
+        "pass": 61,
+        "review": 0,
+        "restock": 2
+      }
+    },
+    "n_photos": 146,
+    "recall_needs_restock": 0.5301204819277108,
+    "auto_restock_share_of_positives": 0.5301204819277109,
+    "false_trip_share_of_negatives": 0.031746031746031744,
+    "cost_per_1000_photos": 1094.346911455345,
+    "cost_per_day": 1641.5203671830175,
+    "review_share": 0.0,
+    "reviews_per_day": 0.0,
+    "reviewer_hours_per_day": 0.0,
+    "people_for_review": 0.0,
+    "fits_review_capacity": true
+  },
+  "chosen": {
+    "t_low": 0.1,
+    "t_high": 0.38,
+    "base_rate": 0.2,
+    "counts": {
+      "needs_restock": {
+        "pass": 2,
+        "review": 37,
+        "restock": 44
+      },
+      "does_not": {
+        "pass": 32,
+        "review": 29,
+        "restock": 2
+      }
+    },
+    "n_photos": 146,
+    "recall_needs_restock": 0.9759036144578314,
+    "auto_restock_share_of_positives": 0.5301204819277109,
+    "false_trip_share_of_negatives": 0.031746031746031744,
+    "cost_per_1000_photos": 789.2114489704852,
+    "cost_per_day": 1183.817173455728,
+    "review_share": 0.45741059475999235,
+    "reviews_per_day": 686.1158921399885,
+    "reviewer_hours_per_day": 3.8117549563332696,
+    "people_for_review": 0.5445364223333242,
+    "fits_review_capacity": true
+  },
+  "alternatives": [
+    {
+      "policy": "Do nothing (wait for scheduled rounds)",
+      "cost_per_1000_photos": 1420.0,
+      "cost_per_day": 2130.0,
+      "reviews_per_day": 0,
+      "people_for_review": 0.0,
+      "note": "Every shelf that needs restocking waits: all positives are missed."
+    },
+    {
+      "policy": "Person checks every photo",
+      "cost_per_1000_photos": 733.3333333333334,
+      "cost_per_day": 1100.0,
+      "reviews_per_day": 1500,
+      "people_for_review": 1.1904761904761905,
+      "note": "No model. Assumes the reviewer is always right."
+    },
+    {
+      "policy": "Always send a trip",
+      "cost_per_1000_photos": 3250.0,
+      "cost_per_day": 4875.0,
+      "reviews_per_day": 0,
+      "people_for_review": 0.0,
+      "note": "No model, no review. Every photo triggers a trip."
+    },
+    {
+      "policy": "Model alone (t = 0.38)",
+      "cost_per_1000_photos": 1094.346911455345,
+      "cost_per_day": 1641.5203671830175,
+      "reviews_per_day": 0,
+      "people_for_review": 0.0,
+      "note": "Single threshold, no human in the loop."
+    },
+    {
+      "policy": "Model + review band (0.10 to 0.38)",
+      "cost_per_1000_photos": 789.2114489704852,
+      "cost_per_day": 1183.817173455728,
+      "reviews_per_day": 686.1158921399885,
+      "people_for_review": 0.5445364223333242,
+      "note": "Chosen design."
+    }
+  ],
+  "validation": {
+    "model_alone_cost_per_1000": 1001.5217391304348,
+    "band_cost_per_1000": 721.226516371444
+  },
+  "in_sample_test_optimum": {
+    "note": "Thresholds tuned directly on test. Optimistic, shown only to measure how much the choice depends on the sample.",
+    "single_threshold": 0.34,
+    "single_cost_per_1000": 1070.6769936890419,
+    "band": {
+      "t_low": 0.13,
+      "t_high": 0.56
+    },
+    "band_cost_per_1000": 720.1740294511379
+  }
+}

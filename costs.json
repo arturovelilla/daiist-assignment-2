@@ -1,0 +1,25 @@
+{
+  "_status": "Scenario B (central), hypermarket. Decided 2026-10-26. After editing, run: uv run python train.py --policy-only",
+
+  "k_gaps": 4,
+  "cost_restock_trip_eur": 3.25,
+  "cost_missed_restock_eur": 7.10,
+  "base_rate": 0.20,
+
+  "photos_per_day": 1500,
+  "review_seconds_per_photo": 20,
+  "reviewer_cost_per_hour_eur": 15.0,
+  "reviewer_minutes_available_per_day": 240,
+  "productive_hours_per_person_day": 7,
+
+  "_derivation": {
+    "setting": "Large hypermarket, fixed cameras, one camera per shelf section (one photo like the dataset's, ~135 facings).",
+    "trip": "15 min walk + restock + return x 13 EUR/h loaded shelf-stocker cost (~10 EUR/h gross from the supermarket collective agreement, ~17-19k EUR/yr over ~1,770 h, + ~30% employer social security) = 3.25 EUR. Paid whether the trip was needed (TP) or not (FP).",
+    "loss_per_gap": "1.50 EUR/h sales per empty facing (gaps concentrate on fast movers: ~one 1.50 EUR item per hour) x 40% of the sale lost to the store (Gruen, Corsten & Bharadwaj 2002: 31% buy elsewhere + 9% do not buy) x 25% gross margin x 6 h until the next scheduled round = 0.90 EUR per gap.",
+    "k": "Break-even gaps per trip = 3.25 / 0.90 = 3.6, rounded up to 4.",
+    "missed_restock": "0.90 EUR per gap x 7.9 gaps, the average on test photos that truly need restocking at k = 4 = 7.10 EUR. 2.2x a trip.",
+    "base_rate": "20% of photos truly need restocking in normal operations. The test set's 57% (photos with >= 4 gaps) comes from a dataset curated to show gaps; at 57% with 1,500 photos/day the store would need ~850 unscheduled trips a day (~31 stockers doing only trips), i.e. a store in crisis. 20% gives ~286 trips/day (~10 stockers). 57% is kept as the sensitivity case: there, a person checking every photo becomes cheaper than the model.",
+    "volume": "~100,000 facings / ~135 per photo = ~750 cameras x 2 photos/day = 1,500 photos/day. One photo in each interval between scheduled rounds (mid-morning, mid-afternoon), which is what makes a miss wait until the next round (the missed-restock cost). Hourly photos were rejected: they contradict that cost and imply ~6,900 trips/day. Camera count is an assumption, not sourced.",
+    "review": "20 s per photo by a section manager at ~15 EUR/h loaded (19.6-22.4k EUR/yr). ~15 section managers x 15 min/day = 240 min/day of review time. Reviewers assumed always right (human error out of scope, listed as a limitation)."
+  }
+}
